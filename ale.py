@@ -48,26 +48,26 @@ def intervalc1(r1,r2,obj): #encuentra el intervalo en el que puede variar c1
             i += 0.01
         else(cmp(tuplaoriginal,tuplaprueba)!=0):
             i=slope2
-            return ("C1 no puede variar entre "+str(slope1)+" y "+str(slope2))
+            return ("C1 no puede variar entre ("+str(slope1)+","+str(slope2)+")")
     
-    if(i==(slope2+0.01)):
-        return ("C1 puede variar entre "+str(slope1)+" y "+str(slope2))
+    if(i==(slope2)):
+        return ("C1 puede variar entre ("+str(slope1)+","+str(slope2)+")")
 
 def intervalc2(r1,r2,obj):
     slope1=float(format(slopec2(r1)*c2(obj),'.2f')) 
     slope2=float(format(slopec2(r2)*c2(obj),'.2f'))
     i = slope2
-    while i <= slope1:
+    while i < slope1:
         tuplaoriginal=(15/2, 225/4)
         #tuplaprueba = method() #Aqui hace la maximizacion y compara si sigue igual que la original
         if (cmp(tuplaoriginal,tuplaprueba)==0):
             i += 0.01
         else(cmp(tuplaoriginal,tuplaprueba)!=0):
             i=slope2
-            return ("C2 no puede variar entre "+str(slope2)+" y "+str(slope1))
+            return ("C2 no puede variar entre ("+str(slope2)+","+str(slope1)+")")
     
-    if(i==(slope1+0.01)):
-        return ("C2 puede variar entre "+str(slope2)+" y "+str(slope1))
+    if(i==(slope1)):
+        return ("C2 puede variar entre ("+str(slope2)+","+str(slope1)+")")
     
 
 
