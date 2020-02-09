@@ -78,8 +78,8 @@ def solve(f1, f2, x, y):
     if possiblesoln[0] > produccionMax and possiblesoln[1] in arrayPuntosCandidatos:
         produccionMax = possiblesoln[0]
         puntoMax = possiblesoln[1]
-    # se devuelve el punto que maximiza y el valor maximo
-    return puntoMax, produccionMax
+    # se devuelve el punto que maximiza 
+    return puntoMax
 
 
 print(solve(fila1, fila2, x, y))

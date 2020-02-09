@@ -41,11 +41,12 @@ def intervalc1(r1,r2,obj): #encuentra el intervalo en el que puede variar c1
     slope1=float(format(slope(r1)*c1(obj),'.2f')) #multiplica la pendiente de la primera restriccion, por la pendiente de la funcion objetivo, para despejar c1
     slope2=float(format(slope(r2)*c1(obj),'.2f'))
     i = slope1
-    while i <= slope2:
+    while i < slope2:
         tuplaoriginal=(15/2, 225/4)
         #tuplaprueba = method() #Aqui hace la maximizacion y compara si sigue igual que la original
         if (cmp(tuplaoriginal,tuplaprueba)==0):
-            i += 0.01
+            i=i+0.01
+            i=float("{0:.2f}".format(i))
         else(cmp(tuplaoriginal,tuplaprueba)!=0):
             i=slope2
             return ("C1 no puede variar entre ("+str(slope1)+","+str(slope2)+")")
@@ -61,7 +62,8 @@ def intervalc2(r1,r2,obj):
         tuplaoriginal=(15/2, 225/4)
         #tuplaprueba = method() #Aqui hace la maximizacion y compara si sigue igual que la original
         if (cmp(tuplaoriginal,tuplaprueba)==0):
-            i += 0.01
+            i=i+0.01
+            i=float("{0:.2f}".format(i))
         else(cmp(tuplaoriginal,tuplaprueba)!=0):
             i=slope2
             return ("C2 no puede variar entre ("+str(slope2)+","+str(slope1)+")")
