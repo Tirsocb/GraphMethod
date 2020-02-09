@@ -3,11 +3,11 @@ import sympy as sp
 
 x, y = sp.symbols('x y')
 # poner coeficientes de la funcion objetivo
-arrobj = [1091, 1411, 0, 0]
+arrobj = [100, 120, 0, 0]
 # coefeicientes y limite de las restricciones, el ultimo spot del array es el signito de mayor o menor a
-restrict1 = [8, 12, 600, '<']
-restrict2 = [5, 10, 450, '<']
-restrict3 = [2, 2, 140, '<']
+restrict1 = [4, 8, 480, '<']
+restrict2 = [5, 6, 600, '<']
+restrict3 = [12, 8, 540, '<']
 funcion_objetivo = Eq(arrobj[0] * x + arrobj[1] * y)
 restriccion1 = Eq(restrict1[0] * x + restrict1[1] * y, restrict1[2])
 restriccion2 = Eq(restrict2[0] * x + restrict2[1] * y, restrict2[2])
