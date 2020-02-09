@@ -3,24 +3,24 @@ import sympy as sp
 
 x, y = sp.symbols('x y')
 # poner coeficientes de la funcion objetivo
-arrobj = [100, 120, 0, 0]
+arrobj = [4, 3, 0, 0]
 # coefeicientes y limite de las restricciones, el ultimo spot del array es el signito de mayor o menor a
-restrict1 = [4, 8, 480, '<']
-restrict2 = [5, 6, 600, '<']
-restrict3 = [12, 8, 540, '<']
+restrict1 = [4, 2, 60, '<']
+restrict2 = [2, 4, 48, '<']
+
+# poner funciones y restricciones en formato de sympy
 funcion_objetivo = Eq(arrobj[0] * x + arrobj[1] * y)
 restriccion1 = Eq(restrict1[0] * x + restrict1[1] * y, restrict1[2])
 restriccion2 = Eq(restrict2[0] * x + restrict2[1] * y, restrict2[2])
-restriccion3 = Eq(restrict3[0] * x + restrict3[1] * y, restrict3[2])
 
 # matriz
 fila1 = [restrict1[0], restrict1[1], restrict1[2]]
 fila2 = [restrict2[0], restrict2[1], restrict2[2]]
-fila3 = [restrict3[0], restrict3[1], restrict3[2]]
 
 arrayPuntosCandidatos = []
 
 
+# funcion para verificar que los coeficientes de las restricciones cumplan con las restricciones
 def puntosCandidatos(x, y):
     testvar = True
 
@@ -47,59 +47,39 @@ def puntosCandidatos(x, y):
             pass
         else:
             testvar = False
-
-    # restriccion 3
-    if restrict3[3] == '<':
-        if restrict3[0] * x + restrict3[1] * y <= restrict3[2]:
-            pass
-        else:
-            testvar = False
-    else:
-        if restrict3[0] * x + restrict3[1] * y >= restrict3[2]:
-            pass
-        else:
-            testvar = False
-
+    # si si cumplen las restricciones meter los puntos a un array
     if testvar == True:
         arrayPuntosCandidatos.append((x, y))
     return testvar
 
 
-def funcionObjetivo(respuesta):
+# recibir puntos y asignarlos a la variable correspondiente, dependiendo del largo del array respuesta
+def possibleValues(respuesta):
     arrayVar = [v for v in respuesta.values()]
     xx = arrayVar[0]
     yy = arrayVar[1]
-
+    # si las respuestas cumplen con las restricciones ponerlos en el formato adecuadio
     if puntosCandidatos(xx, yy):
         return [arrobj[0] * xx + arrobj[1] * yy, (xx, yy)]
     else:
-        return [0, (xx, yy)]
+        return [0, (xx, yy)]  # si no cumplen con las restricciones se devuelve por default 0
 
 
-sol1 = Matrix((fila2, fila3))
-sol2 = Matrix((fila1, fila2))
-sol3 = Matrix((fila1, fila3))
+# resolver problema, recibe las dos filas de la matriz con los coeficientes y 'x' y 'y' como simbolos de sympy
+def solve(f1, f2, x, y):
+    soln = Matrix((fila1, fila2))  # declarar matriz sympy
 
-solve_linear_system(sol1, x, y)
-solve_linear_system(sol2, x, y)
-solve_linear_system(sol3, x, y)
+    possiblesoln = possibleValues(solve_linear_system(soln, x, y))  # resolver sistema de ecuaciones para encontrar la
+    # interseccion entre restricciones, verificar que el punto cumple y se mete en la variable possiblesoln como una
+    # posible solucion al problema
 
-possiblesol1 = funcionObjetivo(solve_linear_system(sol1, x, y))
-possiblesol2 = funcionObjetivo(solve_linear_system(sol2, x, y))
-possiblesol3 = funcionObjetivo(solve_linear_system(sol3, x, y))
+    produccionMax = 0
+    # probar que la solucion sea la indicada para maximizar la funcion objetivo
+    if possiblesoln[0] > produccionMax and possiblesoln[1] in arrayPuntosCandidatos:
+        produccionMax = possiblesoln[0]
+        puntoMax = possiblesoln[1]
+    # se devuelve el punto que maximiza y el valor maximo
+    return puntoMax, produccionMax
 
 
-produccionMax = 0
-if possiblesol1[0] > produccionMax and possiblesol1[1] in arrayPuntosCandidatos:
-    produccionMax = possiblesol1[0]
-    puntoMax = possiblesol1[1]
-elif possiblesol2[0] > produccionMax and possiblesol2[1] in arrayPuntosCandidatos:
-    produccionMax = possiblesol2[0]
-    puntoMax = possiblesol2[1]
-elif possiblesol3[0] > produccionMax and possiblesol3[1] in arrayPuntosCandidatos:
-    produccionMax = possiblesol3[0]
-    puntoMax = possiblesol3[1]
-
-print(puntoMax)
-print(produccionMax)
-
+print(solve(fila1, fila2, x, y))
